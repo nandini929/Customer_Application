@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app">
+    <div class="card">
+        <div class="header">
+            <h1>Customer Manager</h1>
+        </div>
+
+        <section>
+            <h2 class="section-title">New customer</h2>
+            <form id="customer-form">
+                <div>
+                    <label for="firstName">First name</label>
+                    <input id="firstName" name="firstName" required>
+                </div>
+                <div>
+                    <label for="lastName">Last name</label>
+                    <input id="lastName" name="lastName" required>
+                </div>
+                <div>
+                    <label for="dateOfBirth">Date of birth</label>
+                    <input id="dateOfBirth" name="dateOfBirth" type="date" required>
+                    <div class="hint">Pick a past date from the calendar.</div>
+                </div>
+                <button type="submit" id="submit-btn">
+                    <span id="submit-text">Create customer</span>
+                    <span class="button-spinner" id="submit-spinner" style="display:none;"></span>
+                </button>
+                <div id="form-message" class="error" style="display:none;"></div>
+                <div id="form-success" class="success" style="display:none;"></div>
+            </form>
+
+            <div class="view-customers-container">
+                <button type="button" onclick="window.location.href='/customers.html'">
+                    View customers
+                </button>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
+

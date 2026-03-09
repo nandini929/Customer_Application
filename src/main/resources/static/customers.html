@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app">
+    <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px;">
+            <div>
+                <h1>Customers</h1>
+            </div>
+            <button type="button" onclick="window.location.href='/'">
+                Back to form
+            </button>
+        </div>
+
+        <section>
+            <div class="toolbar">
+                <h2 style="font-size:15px;margin:0;">Customer list</h2>
+                <div style="display:flex;align-items:center;gap:6px;">
+                    <span class="pill" id="count-pill">0 customers</span>
+                </div>
+            </div>
+            <div id="customers-empty" class="empty">No customers yet. Create one on the form page.</div>
+            <table id="customers-table" style="display:none;">
+                <thead>
+                <tr>
+                    <th style="width:60px;">ID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th style="width:120px;">Date of birth</th>
+                </tr>
+                </thead>
+                <tbody id="customers-body"></tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+<script src="/customers.js"></script>
+</body>
+</html>
+
