@@ -59,6 +59,12 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
+    // Reject whitespace-only names
+    if (!firstName.length || !lastName.length) {
+        showError('First name and last name are required.');
+        return;
+    }
+
     // Frontend validation for date of birth: must be a valid past date
     const dobDate = new Date(dateOfBirth);
     if (Number.isNaN(dobDate.getTime())) {
@@ -83,17 +89,36 @@ form.addEventListener('submit', async (e) => {
             body: JSON.stringify({ firstName, lastName, dateOfBirth })
         });
 
+        const contentType = res.headers.get('Content-Type') || '';
+        const isJson = contentType.includes('application/json');
+
         if (res.status === 400) {
-            const body = await res.json();
-            const errors = body.errors || {};
-            const firstError = Object.values(errors)[0] || body.message || 'Validation failed.';
-            showError(firstError);
+            if (isJson) {
+                try {
+                    const body = await res.json();
+                    const errors = body.errors || {};
+                    const firstError = Object.values(errors)[0] || body.message || 'Validation failed.';
+                    showError(firstError);
+                } catch (_) {
+                    showError('Validation failed.');
+                }
+            } else {
+                showError('Validation failed.');
+            }
         } else if (!res.ok) {
-            showError('Failed to create customer. Status ' + res.status);
+            showError('Failed to create customer. Please try again.');
         } else {
-            const created = await res.json();
-            showSuccess('Customer #' + created.id + ' created.');
-            form.reset();
+            if (isJson) {
+                try {
+                    const created = await res.json();
+                    showSuccess('Customer #' + created.id + ' created.');
+                    form.reset();
+                } catch (_) {
+                    showError('Invalid response from server.');
+                }
+            } else {
+                showError('Invalid response from server.');
+            }
         }
     } catch (err) {
         console.error(err);

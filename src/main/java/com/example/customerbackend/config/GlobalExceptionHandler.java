@@ -1,5 +1,6 @@
 package com.example.customerbackend.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -13,6 +14,9 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @Value("${app.api.expose-error-detail:false}")
+    private boolean exposeErrorDetail;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
@@ -34,7 +38,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleMessageNotReadable(HttpMessageNotReadableException ex) {
         Map<String, Object> body = new HashMap<>();
         body.put("message", "Invalid request body");
-        body.put("detail", ex.getMostSpecificCause().getMessage());
+        if (exposeErrorDetail) {
+            body.put("detail", ex.getMostSpecificCause().getMessage());
+        }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 }
