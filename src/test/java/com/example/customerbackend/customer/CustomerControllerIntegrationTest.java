@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -21,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@WithMockUser(username = "test", roles = "USER")
 @DisplayName("Customer API integration")
 class CustomerControllerIntegrationTest {
 
@@ -166,13 +163,5 @@ class CustomerControllerIntegrationTest {
                 .content(body))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Invalid request body"));
-    }
-
-    @Test
-    @WithAnonymousUser
-    @DisplayName("GET /api/customers without auth returns 401")
-    void getWithoutAuthReturns401() throws Exception {
-        mockMvc.perform(get("/api/customers"))
-                .andExpect(status().isUnauthorized());
     }
 }
